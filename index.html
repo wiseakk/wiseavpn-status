@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>WiseaVPN Status</title>
+  <meta name="description" content="Статус сервисов WiseaVPN, новости и уведомления." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@500;600;700&family=Unbounded:wght@300;400;500;600;700;800;900&family=Yuji+Syuku&family=Zen+Antique&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="particleCanvas" aria-hidden="true"></canvas>
+
+  <div class="bg-decoration bg-circle-1"></div>
+  <div class="bg-decoration bg-circle-2"></div>
+  <div class="bg-grid"></div>
+
+  <div class="kanji-bg" aria-hidden="true">
+    <span class="kanji k1">波</span>
+    <span class="kanji k2">海</span>
+    <span class="kanji k3">水</span>
+    <span class="kanji k4">風</span>  
+    <span class="kanji k5">静</span>
+    <span class="kanji k6">月</span>
+    <span class="kanji k7">雲</span>
+    <span class="kanji k8">夢</span>
+    <span class="kanji k9">火</span>
+    <span class="kanji k10">光</span>
+  </div>
+
+  <svg class="svg-defs" width="0" height="0" aria-hidden="true">
+    <defs>
+      <filter id="waveGlow">
+        <feGaussianBlur stdDeviation="5" result="blur" />
+        <feColorMatrix
+          in="blur"
+          type="matrix"
+          values="
+            1 0 0 0 0.95
+            0 0.15 0 0 0
+            0 0 0.2 0 0
+            0 0 0 0.85 0
+          "
+          result="redGlow"
+        />
+        <feMerge>
+          <feMergeNode in="redGlow" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+
+      <symbol id="greatWaveSymbol" viewBox="0 0 1400 900">
+        <circle class="wave-sun" cx="1110" cy="210" r="120" />
+
+        <path
+          class="wave-back"
+          d="M100 720
+             C220 655, 335 640, 460 680
+             C595 725, 735 700, 830 590
+             C920 486, 1010 460, 1115 505
+             C1230 555, 1315 665, 1390 700
+             L1390 900 L100 900 Z"
+        />
+
+        <path
+          class="wave-body"
+          d="M-20 800
+             C85 690, 175 570, 320 535
+             C465 500, 595 568, 680 668
+             C735 732, 785 752, 845 725
+             C935 685, 960 585, 930 480
+             C905 390, 935 292, 1015 230
+             C1115 150, 1260 162, 1332 262
+             C1405 365, 1370 520, 1260 612
+             C1150 704, 990 765, 775 795
+             C540 828, 245 840, -20 800
+             L-20 900 L1400 900 L1400 690
+             C1265 750, 1090 805, 870 835
+             C575 875, 275 865, -20 820 Z"
+        />
+
+        <path
+          class="wave-outline"
+          d="M-20 800
+             C85 690, 175 570, 320 535
+             C465 500, 595 568, 680 668
+             C735 732, 785 752, 845 725
+             C935 685, 960 585, 930 480
+             C905 390, 935 292, 1015 230
+             C1115 150, 1260 162, 1332 262
+             C1405 365, 1370 520, 1260 612
+             C1150 704, 990 765, 775 795
+             C540 828, 245 840, -20 800"
+        />
+
+        <path class="wave-claw" d="M1015 235 C955 185, 955 110, 1018 78 C1085 44, 1185 72, 1225 145 C1265 220, 1225 305, 1158 355" />
+        <path class="wave-claw" d="M1100 205 C1085 130, 1132 70, 1202 68 C1285 66, 1345 130, 1345 215 C1345 295, 1295 365, 1218 410" />
+        <path class="wave-claw" d="M910 485 C835 442, 810 365, 850 312 C892 255, 990 262, 1038 325 C1088 390, 1048 485, 962 540" />
+        <path class="wave-claw" d="M735 670 C665 630, 645 560, 685 515 C725 470, 805 485, 840 545 C875 605, 825 675, 755 715" />
+
+        <path class="wave-flow" d="M240 575 C365 535, 510 565, 620 665" />
+        <path class="wave-flow" d="M170 665 C335 620, 520 645, 670 735" />
+        <path class="wave-flow" d="M410 745 C560 725, 710 725, 860 700" />
+        <path class="wave-flow" d="M900 675 C1010 625, 1105 555, 1170 455" />
+        <path class="wave-flow" d="M980 555 C1065 505, 1120 440, 1155 365" />
+
+        <path class="wave-red-line" d="M-10 825 C225 790, 480 785, 730 805 C965 824, 1190 790, 1400 700" />
+
+        <g class="foam-group">
+          <circle cx="1240" cy="155" r="16" />
+          <circle cx="1285" cy="205" r="12" />
+          <circle cx="1185" cy="255" r="10" />
+          <circle cx="1090" cy="270" r="9" />
+          <circle cx="1015" cy="365" r="12" />
+          <circle cx="980" cy="420" r="8" />
+          <circle cx="850" cy="555" r="10" />
+          <circle cx="805" cy="620" r="7" />
+          <circle cx="690" cy="720" r="7" />
+        </g>
+
+        <g class="foam-curls">
+          <path d="M1220 138 C1195 105, 1210 65, 1250 58 C1292 51, 1325 86, 1315 128 C1305 170, 1260 180, 1220 138 Z" />
+          <path d="M1110 112 C1085 80, 1100 42, 1138 36 C1175 30, 1205 62, 1198 100 C1190 142, 1140 154, 1110 112 Z" />
+          <path d="M940 330 C910 295, 925 250, 970 244 C1015 238, 1050 275, 1038 320 C1025 365, 975 372, 940 330 Z" />
+          <path d="M715 520 C690 492, 702 455, 738 450 C775 445, 805 475, 798 512 C790 550, 745 558, 715 520 Z" />
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="wave-field" aria-hidden="true">
+    <div class="wave-scene wave-scene-top">
+      <svg class="code-wave" viewBox="0 0 1400 900">
+        <use href="#greatWaveSymbol"></use>
+      </svg>
+    </div>
+
+    <div class="wave-scene wave-scene-bottom">
+      <svg class="code-wave" viewBox="0 0 1400 900">
+        <use href="#greatWaveSymbol"></use>
+      </svg>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="brand-mark">波</div>
+
+        <div class="brand-text">
+          <p class="brand-label">STATUS / 状態</p>
+          <h1>WiseaVPN</h1>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="#status">Статус</a>
+        <a href="#services">Сервисы</a>
+        <a href="#news">Новости</a>
+        <a href="#help">Помощь</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <p class="eyebrow">SYSTEM STATUS</p>
+
+        <h2>Статус VPN, подписок и важных сервисов</h2>
+
+        <p class="hero-text">
+          Если VPN не работает — сначала проверь эту страницу.
+          Здесь публикуются сбои, техработы и важные обновления.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#news" class="button primary">Открыть новости</a>
+          <a href="https://t.me/wiseakk" class="button ghost" target="_blank">Поддержка</a>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="status-panel" id="status">
+          <div class="status-panel-top">
+            <span class="status-chip" id="globalStatusChip">Загрузка...</span>
+            <span class="status-updated" id="globalUpdatedAt">—</span>
+          </div>
+
+          <h3 id="globalStatusTitle">Загрузка статуса...</h3>
+
+          <p id="globalStatusText">
+            Подождите, идёт загрузка данных...
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="section-head">
+        <div>
+          <p class="section-label">SERVICES</p>
+          <h2>Сервисы</h2>
+        </div>
+      </div>
+
+      <div class="services-grid" id="servicesGrid">
+        <p>Загрузка сервисов...</p>
+      </div>
+    </section>
+
+    <section class="section" id="news">
+      <div class="section-head">
+        <div>
+          <p class="section-label">NEWS / 通知</p>
+          <h2>Новости</h2>
+        </div>
+
+        <button class="button primary small" id="refreshBtn">Обновить</button>
+      </div>
+
+      <div class="news-list" id="newsList">
+        <p>Загрузка новостей...</p>
+      </div>
+    </section>
+
+    <section class="section" id="help">
+      <div class="section-head">
+        <div>
+          <p class="section-label">HELP</p>
+          <h2>Что делать, если VPN не работает?</h2>
+        </div>
+      </div>
+
+      <div class="help-card">
+        <ol class="help-list">
+          <li>Проверь, работает ли интернет без VPN.</li>
+          <li>Обнови подписку в приложении.</li>
+          <li>Перезапусти VPN-клиент.</li>
+          <li>Попробуй другую сеть: Wi-Fi / мобильный интернет.</li>
+          <li>Проверь новости выше — возможно, сейчас есть сбой.</li>
+          <li>Если не помогло — напиши в поддержку.</li>
+        </ol>
+
+        <div class="support-box">
+          <p class="support-title">Поддержка</p>
+          <a href="https://t.me/wiseakk" target="_blank">@wiseakk</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <p class="footer-title">WiseaVPN</p>
+        <p class="footer-text">Страница статуса и сервисных уведомлений.</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="#status">Статус</a>
+        <a href="#news">Новости</a>
+        <a href="https://t.me/wiseakk" target="_blank">Поддержка</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
