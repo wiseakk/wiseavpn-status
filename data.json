@@ -10,8 +10,8 @@
     {
       "name": "VPN-нода",
       "status": "ok",
-      "statusText": "Работает",
-      "description": "Основной сервер VLESS REALITY TCP доступен."
+      "statusText": "Сервер Работает",
+      "description": "Сервер онлайн, впн работает."
     },
     {
       "name": "Подписки",
